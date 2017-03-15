@@ -52,7 +52,7 @@ class Util {
 				$values = $m[5];
 
 				for ($j = 0; $j < count($keys); $j++) {
-					$data[$keys[$j]] = urlencode($values[$j]);
+					$data[$keys[$j]] = $values[$j];
 				}
 			}
 		}

@@ -58,6 +58,14 @@ class Component {
 
 				if (!empty($data)) {
 					$parsed = $this->_parse($link, $data);
+
+					if (preg_match('/href="([^"]+)"/', $parsed, $mm)) {
+						if (count($mm) > 1) {
+							$url = preg_replace('/\s+/', '+', $mm[1]);
+							$parsed = str_replace($mm[1], $url, $parsed);
+						}
+					}
+
 					$content = str_replace($link, $parsed, $content);
 				}
 			}

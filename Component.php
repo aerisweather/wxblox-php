@@ -60,22 +60,6 @@ class Component {
 					$parsed = $this->_parse($link, $data);
 					$content = str_replace($link, $parsed, $content);
 				}
-
-				// if (preg_match_all('/((data-([^=]+)=((?:"|\'))([^"\']+)\4))/', $link, $mm)) {
-				// 	$data = array();
-
-				// 	if (count($mm) > 0) {
-				// 		$keys = $mm[3];
-				// 		$values = $mm[5];
-
-				// 		for ($j = 0; $j < count($keys); $j++) {
-				// 			$data[$keys[$j]] = urlencode($values[$j]);
-				// 		}
-				// 	}
-
-				// 	$parsed = $this->_parse($link, $data);
-				// 	$content = str_replace($link, $parsed, $content);
-				// }
 			}
 		}
 
@@ -94,56 +78,6 @@ class Component {
 	private function _parse($tpl, $data = array()) {
 		return Util::parse($tpl, $data);
 	}
-
-	// private function _parseTemplate($tpl, $data = array()) {
-	// 	if (preg_match_all('/{{([^}]+)}}/', $tpl, $m)) {
-	// 		$vars = $m[1];
-	// 		for ($i = 0; $i < count($vars); $i++) {
-	// 			$key = $vars[$i];
-	// 			$val = $this->_valueForKeyPath($data, $key);
-	// 			if (!is_array($val)) {
-	// 				$tpl = preg_replace('/{{' . $key . '}}/', $val, $tpl);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return $tpl;
-	// }
-
-	// private function _valueForKeyPath($obj, $path, $fallback = null) {
-	// 	if (!isset($obj)) return null;
-
-	// 	$nextPath = '';
-	// 	$splitPath = explode('.', $path);
-
-	// 	if (count($splitPath) > 1) {
-	// 		$key = $splitPath[0];
-	// 		$nextPath = preg_replace("/^$key\./", '', $path);
-	// 		return $this->_valueForKeyPath($obj[$key], $nextPath, $fallback);
-	// 	} else {
-	// 		$key = $splitPath[0];
-	// 		return $obj[$key];
-	// 	}
-
-	// 	return $fallback;
-	// }
-
-	// private function _getData($str) {
-	// 	$data = array();
-
-	// 	if (preg_match_all('/((data-([^=]+)=((?:"|\'))([^"\']+)\4))/', $str, $m)) {
-	// 		if (count($m) > 0) {
-	// 			$keys = $m[3];
-	// 			$values = $m[5];
-
-	// 			for ($j = 0; $j < count($keys); $j++) {
-	// 				$data[$keys[$j]] = urlencode($values[$j]);
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return $data;
-	// }
 
 	private function _fetch() {
 		$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}.html';

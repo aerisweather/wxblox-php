@@ -6,22 +6,26 @@ class Config {
 	public $accessKey = null;
 	public $secretKey = null;
 
-	public $links = array(
-		'local' => array(
-			'main' => '/local/{{loc}}.html',
-			'radar' => '/local/{{loc}}/radar.html',
-			'history' => array(
-				'day' => '/local/{{loc}}/history/{{year}}/{{month}}/{{date}}.html',
-				'month' => '/local/{{loc}}/history/{{year}}/{{month}}.html'
+	public $opts = array(
+		'links' => array(
+			'loc' => '{{place.state}}/{{place.name}}',
+			'local' => array(
+				'main' => '/local/{{loc}}.html',
+				'radar' => '/local/{{loc}}/radar.html',
+				'history' => array(
+					'day' => '/local/{{loc}}/history/{{year}}/{{month}}/{{date}}.html',
+					'month' => '/local/{{loc}}/history/{{year}}/{{month}}.html'
+				),
+				'forecast' => array(
+					'day' => '/local/{{loc}}/forecast/{{year}}/{{month}}/{{date}}.html'
+				),
+				'advisory' => '/local/{{loc}}/advisories.html',
+				'calendar' => '/local/{{loc}}/calendar/{{year}}/{{month}}.html',
+				'maps' => '/local/{{loc}}/maps.html'
 			),
-			'forecast' => array(
-				'day' => '/local/{{loc}}/forecast/{{year}}/{{month}}/{{date}}.html'
-			),
-			'advisory' => '/local/{{loc}}/advisories.html',
-			'calendar' => '/local/{{loc}}/calendar/{{year}}/{{month}}.html'
-		),
-		'maps' => array(
-			'main' => '/maps.html'
+			'maps' => array(
+				'main' => '/maps.html'
+			)
 		)
 	);
 	private $_linkVars = null;
@@ -35,7 +39,7 @@ class Config {
 	}
 
 	public function __construct() {
-		$this->_linkVars = $this->_valuesByKeyPath('links', $this->links);
+		// $this->_linkVars = $this->_valuesByKeyPath('links', $this->links);
 	}
 
 	public function setAccess($key, $secret) {
@@ -43,8 +47,12 @@ class Config {
 		$this->secretKey = $secret;
 	}
 
+	public function get($path) {
+		return Util::valueForKeyPath($this->opts, $path);
+	}
+
 	public function templateVars() {
-		return $this->_linkVars;
+		return $this->opts;
 	}
 
 	private function _valuesByKeyPath($key, $obj, &$dest = null) {

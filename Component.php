@@ -101,6 +101,15 @@ class Component {
 			'loc' => $this->place
 		);
 
+		$query = array();
+		foreach ($this->opts as $key => $val) {
+			array_push($query, "$key=$val");
+		}
+
+		if (!empty($query)) {
+			$url .= '?' . implode('&', $query);
+		}
+
 		$url = $this->_parse($url, $vars);
 
 		$ch =  curl_init($url);

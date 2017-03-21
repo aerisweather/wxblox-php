@@ -43,6 +43,20 @@ class Util {
 		return $value;
 	}
 
+	static function setValueForKeyPath(&$obj, $path, $value) {
+		if (!isset($obj)) return false;
+
+		$splitPath = explode('.', $path);
+		$key = array_shift($splitPath);
+
+		if (count($splitPath) > 0) {
+			$obj[$key] = (isset($obj[$key])) ? $obj[$key] : array();
+			Util::setValueForKeyPath($obj[$key], implode($splitPath), $value);
+		} else {
+			$obj[$key] = $value;
+		}
+	}
+
 	static function getData($str) {
 		$data = array();
 

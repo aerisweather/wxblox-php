@@ -101,9 +101,32 @@ class Component {
 			'loc' => $this->place
 		);
 
+		// strip out non-API query string parameters from options to be passed as JSON string
+		$apiParams = array('p','limit','radius','filter','fields','query','sort','skip','from','to','plimit','psort','pskip','callback');
+		$opts = (isset($this->opts['opts'])) ? json_decode($this->opts['opts'], true) : array();
 		$query = array();
 		foreach ($this->opts as $key => $val) {
-			array_push($query, "$key=$val");
+			if (in_array($key, $apiParams)) {
+				array_push($query, "$key=$val");
+			} else if ($key != 'opts') {
+				$key = preg_replace('/_/', '.', $key);
+
+				// check if we need to json_decode the value string for this key if it starts with "[" or "{"
+				if (preg_match('/^(\[|\{)/', $val)) {
+					$val = json_decode($val, true);
+				}
+
+				// if parameter key is a key path, step through the path to set the value on the $opts array
+				if (preg_match('/\./', $key)) {
+					Util::setValueForKeyPath($opts, $key, $val);
+				} else {
+					$opts[$key] = $val;
+				}
+			}
+		}
+
+		if (!empty($opts)) {
+			array_push($query, 'opts=' . json_encode($opts));
 		}
 
 		if (!empty($query)) {

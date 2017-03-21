@@ -109,6 +109,7 @@ class Component {
 			if (in_array($key, $apiParams)) {
 				array_push($query, "$key=$val");
 			} else if ($key != 'opts') {
+				// url params as key paths (e.g. "map.size") have their periods replaced by underscores (e.g. "map_size"), so convert them back
 				$key = preg_replace('/_/', '.', $key);
 
 				// check if we need to json_decode the value string for this key if it starts with "[" or "{"

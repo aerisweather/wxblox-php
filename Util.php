@@ -33,7 +33,7 @@ class Util {
 			$value = Util::valueForKeyPath($obj[$key], $nextPath, true);
 		} else {
 			$key = $splitPath[0];
-			$value = $obj[$key];
+			$value = (isset($obj[$key])) ? $obj[$key] : null;
 		}
 
 		if (!isset($value) && !$allowNull) {

@@ -102,7 +102,7 @@ class Component {
 		);
 
 		// strip out non-API query string parameters from options to be passed as JSON string
-		$apiParams = array('p','limit','radius','filter','fields','query','sort','skip','from','to','plimit','psort','pskip','callback');
+		$apiParams = array('p','limit','radius','filter','fields','query','sort','skip','from','to','plimit','psort','pskip','callback','metric');
 		$opts = (isset($this->opts['opts'])) ? json_decode($this->opts['opts'], true) : array();
 		$query = array();
 		foreach ($this->opts as $key => $val) {

@@ -51,7 +51,7 @@ class Util {
 
 		if (count($splitPath) > 0) {
 			$obj[$key] = (isset($obj[$key])) ? $obj[$key] : array();
-			Util::setValueForKeyPath($obj[$key], implode($splitPath), $value);
+			Util::setValueForKeyPath($obj[$key], implode('.', $splitPath), $value);
 		} else {
 			$obj[$key] = $value;
 		}

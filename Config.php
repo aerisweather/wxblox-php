@@ -24,7 +24,7 @@ class Config {
 				'maps' => '/local/{{loc}}/maps.html'
 			),
 			'maps' => array(
-				'main' => '/maps.html'
+				'main' => '/maps/{{region}}/{{type}}.html'
 			)
 		)
 	);

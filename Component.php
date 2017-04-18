@@ -88,10 +88,14 @@ class Component {
 	}
 
 	private function _fetch() {
-		$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}.html';
-
 		$format = (preg_match('/^view-/', $this->type)) ? 'layouts' : 'components';
 		$type = preg_replace('/^view-/', '', $this->type);
+
+		if ($type == 'maps') {
+			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}.html';
+		} else {
+			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}.html';
+		}
 
 		$vars = array(
 			'key' => $this->config()->accessKey,

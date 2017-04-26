@@ -90,6 +90,7 @@ class Component {
 	private function _fetch() {
 		$format = (preg_match('/^view-/', $this->type)) ? 'layouts' : 'components';
 		$type = preg_replace('/^view-/', '', $this->type);
+		$type = preg_replace('/-/', '/', $type);
 
 		if ($type == 'maps') {
 			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}.html';
@@ -139,6 +140,7 @@ class Component {
 		}
 
 		$url = $this->_parse($url, $vars);
+		$url = preg_replace('/\s/', '%20', $url);
 
 		$ch =  curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

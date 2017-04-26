@@ -24,7 +24,8 @@ class Config {
 				'maps' => '/local/{{loc}}/maps.html'
 			),
 			'maps' => array(
-				'main' => '/maps/{{region}}/{{type}}.html'
+				'main' => '/maps/{{region}}/{{type}}.html',
+				'default' => '/maps/us/radar.html'
 			)
 		)
 	);

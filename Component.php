@@ -10,10 +10,16 @@ class Component {
 	public $place = null;
 	public $opts = null;
 
+	private $_content = null;
+	private $_doc = null;
+	private $_xpath = null;
+
 	public function __construct($type, $loc, $opts = array()) {
 		$this->type = $type;
 		$this->place = $loc;
 		$this->opts = $opts;
+
+		$this->render();
 	}
 
 	public function config($path = null) {
@@ -26,6 +32,19 @@ class Component {
 	public function format() {
 		$format = (preg_match('/^view-/', $this->type)) ? 'layouts' : 'components';
 		return $format;
+	}
+
+	public function html() {
+		if (!$this->_content) {
+			$this->render();
+		}
+
+		if ($this->_doc) {			
+			$content = $this->_doc()->saveHTML();
+			$content = preg_replace('/<\/?(html|head|body)>/', '', $content);
+			return $content;
+		}
+		return $this->_content;
 	}
 
 	public function render() {
@@ -79,12 +98,142 @@ class Component {
 
 		// replace global place vars
 		$content = $this->_parse($content, array('place' => $place));
+		$this->_content = $content;
+	}
 
-		return $content;
+	public function find($selector, $context = null) {
+		$sel = '';
+		$result = null;
+		$prefix = ($context) ? '' : '//';
+
+		// $nodes = explode(' ', $selector);
+		$nodes = array();
+		if (count($nodes) > 1) {
+			$sel = array_shift($nodes);
+			$path = $this->_toXPath($sel);
+			$result = $this->_xpath()->query("${prefix}${path}", $context);
+			if (count($nodes) > 0 && $result->length > 0) {
+				$result = $this->find(implode(' ', $nodes), $result->item(0));
+			}
+		} else {
+			// break up `.selector > .selector` direct descendent elements
+			$parts = explode('>', $selector);
+			$paths = array();
+			
+			foreach ($parts as $part) {
+				$part = trim($part);
+
+				// break up `.selector .selector` elements
+				$descendents = explode(' ', $part);
+				if (count($descendents) > 1) {
+					$dpaths = array();
+					foreach ($descendents as $descendent) {
+						$dpath = $this->_toXPath($descendent);
+						array_push($dpaths, $dpath);
+					}
+					array_push($paths, implode('//', $dpaths));
+				} else {
+					$path = $this->_toXPath($part);
+					array_push($paths, $path);
+				}
+			}
+			$sel = implode('/', $paths);
+			$result = $this->_xpath()->query("${prefix}${sel}", $context);
+		}
+
+		if ($result->length > 0) {
+			return $result->item(0);
+		}
+		return null;
+	}
+
+	public function prepend($selector, $html) {
+		$target = $this->find($selector);
+		if ($target) {
+			$node = $this->_nodeFromHTML($html);
+			if ($target->hasChildNodes()) {
+				$target->insertBefore($node, $target->firstChild);
+			} else {
+				$target->appendChild($node);
+			}
+		}
+	}
+
+	public function append($selector, $html) {
+		$target = $this->find($selector);
+		if ($target) {
+			$node = $this->_nodeFromHTML($html);
+			$target->appendChild($node);
+		}
+	}
+
+	public function insertBefore($selector, $html) {
+		$target = $this->find($selector);
+		if ($target) {
+			$node = $this->_nodeFromHTML($html);
+			$target->parentNode->insertBefore($node, $target);
+		}
+	}
+
+	public function insertAfter($selector, $html) {
+		$target = $this->find($selector);
+		if ($target) {
+			$node = $this->_nodeFromHTML($html);
+			$target->parentNode->insertBefore($node, $target->nextSibling);
+		}
 	}
 
 	private function _parse($tpl, $data = array()) {
 		return Util::parse($tpl, $data);
+	}
+
+	private function _doc() {
+		if (!$this->_doc) {
+			libxml_use_internal_errors(true);
+			$doc = new \DOMDocument();
+			$doc->loadHTML($this->_content);
+			$this->_doc = $doc;
+			libxml_use_internal_errors(false);
+			libxml_clear_errors();
+		}
+		return $this->_doc;
+	}
+
+	private function _xpath() {
+		if (!$this->_xpath) {
+			$this->_xpath = new \DOMXPath($this->_doc());
+		}
+		return $this->_xpath;
+	}
+
+	private function _toXPath($selector) {
+		$selector = trim($selector);
+		$tag = preg_replace('/(\.|#).*$/', '', $selector);
+		if (empty($tag)) {
+			$tag = '*';
+		} else {
+			$selector = preg_replace('/^' . $tag . '/', '', $selector);
+		}
+
+		$xpath = $tag;
+		if (preg_match('/^\./', $selector)) {
+			$xpath .= "[@class='" . preg_replace('/^\./', '', $selector) . "']";
+		} else if (preg_match('/^\#/', $selector)) {
+			$xpath .= "[@id='" . preg_replace('/^\#/', '', $selector) . "']";
+		}
+
+		return $xpath;
+	}
+
+	private function _nodeFromHTML($html) {
+		$node = new \DOMDocument();
+		// we must encode it correctly or strange characters may appear.
+		$node->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+		// move this document element into the scope of the content document 
+		// created above or the insert/append will be rejected.
+		$node = $this->_doc()->importNode($node->documentElement, true);
+
+		return $node;
 	}
 
 	private function _fetch() {

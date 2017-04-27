@@ -1,6 +1,6 @@
 <?php
 
-namespace Aeris;
+namespace Aeris\WxBlox;
 
 class Config {
 	public $accessKey = null;

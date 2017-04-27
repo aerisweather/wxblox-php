@@ -1,6 +1,6 @@
 <?php
 
-namespace Aeris;
+namespace Aeris\WxBlox;
 
 require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Util.php';

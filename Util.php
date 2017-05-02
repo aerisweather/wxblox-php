@@ -4,6 +4,10 @@ namespace Aeris\WxBlox;
 
 class Util {
 
+	static function apiParams() {
+		return array('p','limit','radius','filter','fields','query','sort','skip','from','to','plimit','psort','pskip','callback','metric');
+	}
+
 	static function parse($str, $data = array()) {
 		if (preg_match_all('/{{([^}]+)}}/', $str, $m)) {
 			$vars = $m[1];

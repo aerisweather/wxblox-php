@@ -242,9 +242,9 @@ class Component {
 		$type = preg_replace('/-/', '/', $type);
 
 		if ($type == 'maps') {
-			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}.html';
+			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}';
 		} else {
-			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}.html';
+			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}';
 		}
 
 		$vars = array(
@@ -290,6 +290,7 @@ class Component {
 
 		$url = $this->_parse($url, $vars);
 		$url = preg_replace('/\s/', '%20', $url);
+		var_dump($url);
 
 		$ch =  curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

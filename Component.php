@@ -290,7 +290,6 @@ class Component {
 
 		$url = $this->_parse($url, $vars);
 		$url = preg_replace('/\s/', '%20', $url);
-		var_dump($url);
 
 		$ch =  curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

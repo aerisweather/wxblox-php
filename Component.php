@@ -67,6 +67,8 @@ class Component {
 		$vars = $this->config()->templateVars();
 		$content = $this->_parse($content, $vars);
 
+		$locLink = $this->config('links.loc');
+
 		// find all html links and setup vars based on data attributes on them to use for replacements in the link url
 		// <a class="btn btn-more btn-bordered" href="/local/98109/forecast/{{day}}.html" data-date="14" data-month="03" data-year="2017" data-day="Tue" data-monthname="Mar" data-hour="14" data-minutes="00">
 		if (preg_match_all('/<a[^>]+>/m', $content, $m)) {
@@ -74,6 +76,15 @@ class Component {
 			for ($i = 0; $i < count($links); $i++) {
 				$link = $links[$i];
 				$data = Util::getData($link);
+
+				// replace {{loc}} with either links.loc value or $this->place
+				if ($locLink && $place) {
+					if (is_string($locLink)) {
+						$data['loc'] = $this->_parse($locLink, array('place' => $data));
+					} else if (is_callable($locLink)) {
+						$data['loc'] = $locLink($data);
+					}
+				}
 
 				if (!empty($data)) {
 					$parsed = $this->_parse($link, $data);
@@ -91,7 +102,6 @@ class Component {
 		}
 
 		// replace {{loc}} with either links.loc value or $this->place
-		$locLink = $this->config('links.loc');
 		$content = $this->_parse($content, array(
 			'loc' => (isset($place) && isset($locLink)) ? $locLink : urlencode($this->place)
 		));

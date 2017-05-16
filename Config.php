@@ -52,6 +52,10 @@ class Config {
 		return Util::valueForKeyPath($this->opts, $path);
 	}
 
+	public function set($path, $value) {
+		Util::setValueForKeyPath($this->opts, $path, $value);
+	}
+
 	public function templateVars() {
 		return $this->opts;
 	}

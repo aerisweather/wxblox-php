@@ -267,7 +267,7 @@ class Component {
 				$key = preg_replace('/_/', '.', $key);
 
 				// check if we need to json_decode the value string for this key if it starts with "[" or "{"
-				if (preg_match('/^(\[|\{)/', $val)) {
+				if (is_string($val) && preg_match('/^(\[|\{)/', $val)) {
 					$val = json_decode($val, true);
 				}
 

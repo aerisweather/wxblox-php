@@ -17,7 +17,7 @@ class Component {
 	public function __construct($type, $loc, $opts = array()) {
 		$this->type = $type;
 		$this->place = $loc;
-		$this->opts = $opts;
+		$this->opts = ($opts) ? $opts : array();
 
 		$this->render();
 	}

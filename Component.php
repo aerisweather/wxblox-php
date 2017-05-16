@@ -227,7 +227,8 @@ class Component {
 
 		$xpath = $tag;
 		if (preg_match('/^\./', $selector)) {
-			$xpath .= "[@class='" . preg_replace('/^\./', '', $selector) . "']";
+			$selector = preg_replace('/^\./', '', $selector);
+			$xpath .= "[contains(concat(' ',@class,' '),' $selector ')]";
 		} else if (preg_match('/^\#/', $selector)) {
 			$xpath .= "[@id='" . preg_replace('/^\#/', '', $selector) . "']";
 		}

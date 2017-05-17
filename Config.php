@@ -7,6 +7,7 @@ class Config {
 	public $secretKey = null;
 
 	public $opts = array(
+		'server' => 'http://localhost:3000',
 		'links' => array(
 			'loc' => '{{place.state}}/{{place.name}}',
 			'local' => array(

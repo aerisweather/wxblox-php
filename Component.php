@@ -253,12 +253,13 @@ class Component {
 		$type = preg_replace('/-/', '/', $type);
 
 		if ($type == 'maps') {
-			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}';
+			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}';
 		} else {
-			$url = 'http://localhost:3000/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}';
+			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}';
 		}
 
 		$vars = array(
+			'server' => $this->config()->get('server'),
 			'key' => $this->config()->accessKey,
 			'secret' => $this->config()->secretKey,
 			'format' => $format,

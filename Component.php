@@ -292,7 +292,7 @@ class Component {
 		}
 
 		if (!empty($opts)) {
-			array_push($query, 'opts=' . json_encode($opts));
+			array_push($query, 'opts=' . urlencode(json_encode($opts)));
 		}
 
 		if (!empty($query)) {

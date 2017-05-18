@@ -1,6 +1,8 @@
 {
     "name": "aeris/wxblox",
-    "description": "PHP utility scripts to interface with the Aeris Weather Blox API",
+    "description": "A library to interface with the Aeris Weather Blox API",
+    "keywords": ["aeris", "weather", "templates", "widgets", "views"],
+    "version": "0.9.0",
     "license": "BSD",
     "authors": [
         {
@@ -8,6 +10,7 @@
             "email": "nshipes@aerisweather.com"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
     	"php": ">=5.3.0"
     },

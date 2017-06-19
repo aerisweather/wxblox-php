@@ -5,7 +5,7 @@ namespace Aeris\WxBlox;
 require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Util.php';
 
-class Component {
+class View {
 	public $type = null;
 	public $place = null;
 	public $opts = null;
@@ -30,7 +30,14 @@ class Component {
 	}
 
 	public function format() {
-		$format = (preg_match('/^view-/', $this->type)) ? 'layouts' : 'components';
+		$format = 'views';
+
+		if (preg_match('/^\/?(views|layouts)\//', $this->type, $m)) {
+			$format = $m[1];
+		} else if (preg_match('/^view-/', $this->type)) {
+			$format = 'layouts';
+		}
+
 		return $format;
 	}
 
@@ -248,16 +255,11 @@ class Component {
 	}
 
 	private function _fetch() {
-		$format = 'views';
+		$format = $this->format();
 		$type = $this->type;
 
-		if (preg_match('/^\/?(views|layouts)\//', $this->type, $m)) {
-			$format = $m[1];
-			$type = preg_replace('/^\/?(views|layouts)\//', '', $type);
-		} else if (preg_match('/^view-/', $this->type)) {
-			$format = 'layouts';
-			$type = preg_replace('/^view-/', '', $this->type);
-		}
+		$type = preg_replace('/^\/?(views|layouts)\//', '', $type);
+		$type = preg_replace('/^view-/', '', $type);
 		$type = preg_replace('/-/', '/', $type);
 
 		if ($type == 'maps') {

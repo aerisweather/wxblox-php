@@ -71,7 +71,7 @@ class Component {
 
 		// find all html links and setup vars based on data attributes on them to use for replacements in the link url
 		// <a class="btn btn-more btn-bordered" href="/local/98109/forecast/{{day}}.html" data-date="14" data-month="03" data-year="2017" data-day="Tue" data-monthname="Mar" data-hour="14" data-minutes="00">
-		if (preg_match_all('/<a[^>]+>/m', $content, $m)) {
+		if (preg_match_all('/<(a[^>]+|[^>]+ data-href=[^>]+)>/m', $content, $m)) {
 			$links = (count($m) > 0) ? $m[0] : array();
 			for ($i = 0; $i < count($links); $i++) {
 				$link = $links[$i];
@@ -248,8 +248,16 @@ class Component {
 	}
 
 	private function _fetch() {
-		$format = (preg_match('/^view-/', $this->type)) ? 'layouts' : 'components';
-		$type = preg_replace('/^view-/', '', $this->type);
+		$format = 'views';
+		$type = $this->type;
+
+		if (preg_match('/^\/?(views|layouts)\//', $this->type, $m)) {
+			$format = $m[1];
+			$type = preg_replace('/^\/?(views|layouts)\//', '', $type);
+		} else if (preg_match('/^view-/', $this->type)) {
+			$format = 'layouts';
+			$type = preg_replace('/^view-/', '', $this->type);
+		}
 		$type = preg_replace('/-/', '/', $type);
 
 		if ($type == 'maps') {

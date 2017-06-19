@@ -46,7 +46,7 @@ class View {
 			$this->render();
 		}
 
-		if ($this->_doc) {			
+		if ($this->_doc) {
 			$content = $this->_doc()->saveHTML();
 			$content = preg_replace('/<\/?(html|head|body)>/', '', $content);
 			return $content;
@@ -136,7 +136,7 @@ class View {
 			// break up `.selector > .selector` direct descendent elements
 			$parts = explode('>', $selector);
 			$paths = array();
-			
+
 			foreach ($parts as $part) {
 				$part = trim($part);
 
@@ -247,7 +247,7 @@ class View {
 		$node = new \DOMDocument();
 		// we must encode it correctly or strange characters may appear.
 		$node->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
-		// move this document element into the scope of the content document 
+		// move this document element into the scope of the content document
 		// created above or the insert/append will be rejected.
 		$node = $this->_doc()->importNode($node->documentElement, true);
 
@@ -262,7 +262,7 @@ class View {
 		$type = preg_replace('/^view-/', '', $type);
 		$type = preg_replace('/-/', '/', $type);
 
-		if ($type == 'maps') {
+		if (preg_match('/\/?maps\//', $type)) {
 			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}';
 		} else {
 			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}';

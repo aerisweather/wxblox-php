@@ -63,7 +63,7 @@ class View {
 		// grab global place info from view container data attributes to be used in template vars
 		$place = null;
 		if ($this->format() == 'layouts') {
-			if (preg_match('/<div class="awxs-view"([^>]+)>/', $content, $m)) {
+			if (preg_match('/<div class="awxb-view"([^>]+)>/', $content, $m)) {
 				if (count($m) > 0) {
 					$place = Util::getData($m[0]);
 				}

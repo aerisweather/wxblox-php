@@ -62,11 +62,9 @@ class View {
 
 		// grab global place info from view container data attributes to be used in template vars
 		$place = null;
-		if ($this->format() == 'layouts') {
-			if (preg_match('/<div class="awxb-view"([^>]+)>/', $content, $m)) {
-				if (count($m) > 0) {
-					$place = Util::getData($m[0]);
-				}
+		if (preg_match('/<div class="awxb-view"([^>]+)>/', $content, $m)) {
+			if (count($m) > 0) {
+				$place = Util::getData($m[0]);
 			}
 		}
 
@@ -83,6 +81,10 @@ class View {
 			for ($i = 0; $i < count($links); $i++) {
 				$link = $links[$i];
 				$data = Util::getData($link);
+
+				if ($place) {
+					$data = array_merge($data, $place);
+				}
 
 				// replace {{loc}} with either links.loc value or $this->place
 				if ($locLink && $place) {

@@ -34,7 +34,9 @@ class Util {
 		if (count($splitPath) > 1) {
 			$key = $splitPath[0];
 			$nextPath = preg_replace("/^$key\./", '', $path);
-			$value = Util::valueForKeyPath($obj[$key], $nextPath, true);
+			if (isset($obj[$key])) {
+				$value = Util::valueForKeyPath($obj[$key], $nextPath, true);
+			}
 		} else {
 			$key = $splitPath[0];
 			$value = (isset($obj[$key])) ? $obj[$key] : null;

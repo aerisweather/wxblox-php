@@ -20,8 +20,19 @@ class Config {
 				'forecast' => array(
 					'day' => '/local/{{loc}}/forecast/{{year}}/{{month}}/{{date}}.html'
 				),
+				'normals' => array(
+					'month' => '/local/{{loc}}/normals/{{month}}.html'
+				),
+				'sunmoon' => array(
+					'month' => '/local/{{loc}}/sunmoon/{{year}}/{{month}}.html',
+					'year' => '/local/{{loc}}/sunmoon/{{year}}/{{month}}.html'	
+				),
+				'calendar' => array(
+					'day' => '/local/{{loc}}/history/{{year}}/{{month}}/{{date}}.html',
+					'month' => '/local/{{loc}}/calendar/{{year}}/{{month}}.html',
+					'year' => '/local/{{loc}}/calendar/{{year}}/{{month}}.html'
+				),
 				'advisory' => '/local/{{loc}}/advisories.html',
-				'calendar' => '/local/{{loc}}/calendar/{{year}}/{{month}}.html',
 				'maps' => '/local/{{loc}}/maps.html'
 			),
 			'maps' => array(

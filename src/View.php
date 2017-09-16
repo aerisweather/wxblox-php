@@ -83,7 +83,7 @@ class View {
 				$data = Util::getData($link);
 
 				if ($place) {
-					$data = array_merge($data, $place);
+					$data = array_merge($place, $data);
 				}
 
 				// replace {{loc}} with either links.loc value or $this->place

@@ -316,7 +316,7 @@ class View {
 		$url = preg_replace('/\s/', '%20', $url);
 
 		$timeout = $this->config()->get('timeout');
-		if (!isset($timeout)) $timeout = 3;
+		if (!isset($timeout)) $timeout = 10;
 
 		$ch =  curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

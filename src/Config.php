@@ -8,7 +8,7 @@ class Config {
 
 	public $opts = array(
 		'server' => 'http://localhost:3000',
-		'timeout' => 5,
+		'timeout' => 10,
 		'links' => array(
 			'loc' => '{{place.state}}/{{place.name}}',
 			'local' => array(

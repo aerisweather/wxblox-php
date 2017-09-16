@@ -315,12 +315,15 @@ class View {
 		$url = $this->_parse($url, $vars);
 		$url = preg_replace('/\s/', '%20', $url);
 
+		$timeout = $this->config()->get('timeout');
+		if (!isset($timeout)) $timeout = 3;
+
 		$ch =  curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+		curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
 		// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
 		$result = curl_exec($ch);
 

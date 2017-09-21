@@ -16,7 +16,8 @@ class Config {
 				'radar' => '/local/{{loc}}/radar.html',
 				'history' => array(
 					'day' => '/local/{{loc}}/history/{{year}}/{{month}}/{{date}}.html',
-					'month' => '/local/{{loc}}/history/{{year}}/{{month}}.html'
+					'month' => '/local/{{loc}}/history/{{year}}/{{month}}.html',
+					'year' => '/local/{{loc}}/history/{{year}}/{{month}}.html'
 				),
 				'forecast' => array(
 					'day' => '/local/{{loc}}/forecast/{{year}}/{{month}}/{{date}}.html'

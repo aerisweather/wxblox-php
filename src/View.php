@@ -276,7 +276,7 @@ class View {
 			'secret' => $this->config()->secretKey,
 			'format' => $format,
 			'type' => $type,
-			'loc' => $this->place
+			'loc' => urlencode($this->place)
 		);
 
 		// strip out non-API query string parameters from options to be passed as JSON string

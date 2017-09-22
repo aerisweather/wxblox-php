@@ -65,6 +65,7 @@ class View {
 		if (preg_match('/<div class="awxb-view"([^>]+)>/', $content, $m)) {
 			if (count($m) > 0) {
 				$place = Util::getData($m[0]);
+				$this->place = $place;
 			}
 		}
 
@@ -313,7 +314,7 @@ class View {
 		}
 
 		$url = $this->_parse($url, $vars);
-		$url = preg_replace('/\s/', '%20', $url);
+		$url = preg_replace('/[\+\s]/', '%20', $url);
 
 		$timeout = $this->config()->get('timeout');
 		if (!isset($timeout)) $timeout = 10;

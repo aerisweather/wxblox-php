@@ -7,7 +7,7 @@ class Config {
 	public $secretKey = null;
 
 	public $opts = array(
-		'server' => 'http://localhost:3000',
+		'server' => 'https://wxblox.aerisapi.com',
 		'timeout' => 10,
 		'links' => array(
 			'loc' => '{{place.state}}/{{place.name}}',

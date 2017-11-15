@@ -265,7 +265,7 @@ class View {
 		$type = preg_replace('/^view-/', '', $type);
 		$type = preg_replace('/-/', '/', $type);
 
-		if (preg_match('/\/?maps\//', $type)) {
+		if (preg_match('/\/?maps\/listing\//', $type)) {
 			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}';
 		} else {
 			$url = '{{server}}/{{key}}/{{secret}}/{{format}}/{{type}}/{{loc}}';

@@ -2,7 +2,7 @@
     "name": "aeris/wxblox",
     "description": "A library to interface with the Aeris Weather Blox API",
     "keywords": ["aeris", "weather", "templates", "widgets", "views"],
-    "version": "1.1.0",
+    "version": "1.1.1",
     "license": "BSD",
     "authors": [
         {

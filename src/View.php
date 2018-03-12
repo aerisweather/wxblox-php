@@ -211,7 +211,7 @@ class View {
 		if (!$this->_doc) {
 			libxml_use_internal_errors(true);
 			$doc = new \DOMDocument();
-			$doc->loadHTML($this->_content);
+			$doc->loadHTML(mb_convert_encoding($this->_content, 'HTML-ENTITIES', 'UTF-8'));
 			$this->_doc = $doc;
 			libxml_use_internal_errors(false);
 			libxml_clear_errors();

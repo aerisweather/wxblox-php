@@ -3,7 +3,7 @@
     "description": "A library to interface with the Aeris Weather Blox API",
     "keywords": ["aeris", "weather", "templates", "widgets", "views"],
     "version": "1.1.2",
-    "license": "GPL",
+    "license": "BSD-4-Clause",
     "authors": [
         {
             "name": "Nicholas Shipes",
